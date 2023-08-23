@@ -2,6 +2,9 @@ from caravel_cocotb.caravel_interfaces import test_configure
 from caravel_cocotb.caravel_interfaces import report_test
 import cocotb
 from cocotb.triggers import ClockCycles
+from check_macro import CheckMacro
+
+
 @cocotb.test()
 @report_test
 async def test_io10(dut):
@@ -16,3 +19,5 @@ async def test_io10(dut):
         cocotb.log.info("Test passed")
     else:
         cocotb.log.error("Test failed")
+    
+    CheckMacro(caravelEnv).check_macro()

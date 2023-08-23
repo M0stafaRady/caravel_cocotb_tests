@@ -85,6 +85,17 @@ assign io_out[10] = io_in[20];
 assign io_oeb[10] = 0;
 assign io_oeb[20] = 1;
 
+wire macro_1;
+wire macro_2;
+
+`ifdef USE_MACRO_1
+    assign macro_1 = 1;
+`endif // USE_MACRO_1
+
+`ifdef USE_MACRO_2
+    assign macro_2 = 1;
+`endif // USE_MACRO_2
+
 endmodule	// user_project_wrapper
 
 `default_nettype wire
