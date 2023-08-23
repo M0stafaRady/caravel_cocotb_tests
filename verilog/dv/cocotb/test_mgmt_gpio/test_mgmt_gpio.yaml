@@ -2,6 +2,6 @@
 # Yalm file contain general design information that would mostly need to be updated in the first run only 
 
 Tests: 
-    - {name: test_uart, sim: RTL}
+    - {name: test_mgmt_gpio, sim: RTL}
 
 
