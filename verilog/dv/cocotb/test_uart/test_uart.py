@@ -6,7 +6,7 @@ from caravel_cocotb.caravel_interfaces import UART
 @cocotb.test()
 @report_test
 async def test_uart(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=3346140)
+    caravelEnv = await test_configure(dut, timeout_cycles=90381)
 
     cocotb.log.info(f"[TEST] Start uart test")
     expected_msg = "Hi"

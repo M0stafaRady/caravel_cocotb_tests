@@ -5,7 +5,7 @@ from cocotb.triggers import ClockCycles
 @cocotb.test()
 @report_test
 async def test_io10(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=9373)
+    caravelEnv = await test_configure(dut, timeout_cycles=81)
     caravelEnv.drive_gpio_in(20, 1)
     await ClockCycles(caravelEnv.clk, 10)
     rev1 = caravelEnv.monitor_gpio(10)
