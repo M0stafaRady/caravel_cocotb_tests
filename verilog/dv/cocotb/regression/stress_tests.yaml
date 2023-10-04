@@ -1,0 +1,6 @@
+Tests: 
+    - {name: test_aes_sbox, sim: RTL}
+    - {name: test_chacha, sim: RTL}
+    - {name: test_hash, sim: RTL}
+    - {name: test_stress, sim: RTL}
+    - {name: test_xtea, sim: RTL}
