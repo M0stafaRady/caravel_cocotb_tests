@@ -65,7 +65,7 @@ void main(){
     MSPI_enableCS(1);  // sel=0, manual CS
     MSPI_write(0x08);        // Write 0x03 (read mode)
     MSPI_write(0x05);        // Write 0x00 (start address high byte)
-    unsigned int value = MSPI_read(); // 0x93
+    volatile int value = MSPI_read(); // 0x93
     if (value == 0xD)
         set_debug_reg1(0xBB); // get correct value
     else {

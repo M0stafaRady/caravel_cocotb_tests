@@ -31,6 +31,8 @@ void main(){
 
     set_debug_reg1(0xAA); // configuration finished
     char* msg = UART_readLine();
+    // insert delay
+    dummyDelay(100);
     print(msg);
 
 }

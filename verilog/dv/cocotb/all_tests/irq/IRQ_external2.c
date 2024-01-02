@@ -52,7 +52,7 @@ void main(){
     char is_pass = 0;
     int timeout = 40; 
 
-    for (int i = 0; i < timeout; i++){
+    for (volatile int i = 0; i < timeout; i++){
         if (IRQ_getFlag() == 1){
             set_debug_reg1(0x1B); //test pass irq sent at mprj 12 
             is_pass = 1;
@@ -70,7 +70,7 @@ void main(){
     // Loop, waiting for the interrupt to change reg_mprj_datah
     is_pass = 0;
 
-    for (int i = 0; i < timeout; i++){
+    for (volatile int i = 0; i < timeout; i++){
         if (IRQ_getFlag() == 1){
             set_debug_reg1(0x2E); //test fail interrupt isn't suppose to happened
             is_pass = 1;

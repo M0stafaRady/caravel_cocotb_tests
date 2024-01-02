@@ -46,7 +46,7 @@ class UserDesign:
             await cocotb.start(self.la_testing.start())
         
         await ClockCycles(self.caravelEnv.clk, 1)
-        if cocotb.plusargs['SIM'] == "\"RTL\"" and "VCS" in cocotb.plusargs:
+        if cocotb.plusargs['SIM'] == "\"RTL\"" and "VCS" in cocotb.plusargs and False:
             self.coverage_models()
     
     def coverage_models(self):
@@ -165,7 +165,7 @@ class LA_Testing:
     
     async def start(self):
         cocotb.log.info("[LA_Testing][start] start la testing")
-        await cocotb.start(self.drive_out)
+        await cocotb.start(self.drive_out())
 
 
 async def configure_userdesign(caravelEnv, used_addr=None, gpio_test=None, la_test=False):
