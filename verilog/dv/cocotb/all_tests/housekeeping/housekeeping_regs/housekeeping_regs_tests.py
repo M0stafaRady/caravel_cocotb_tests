@@ -5,7 +5,7 @@ from cocotb.triggers import ClockCycles
 import cocotb.log
 from caravel_cocotb.interfaces.cpu import RiskV 
 from caravel_cocotb.interfaces.defsParser import Regs
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from caravel_cocotb.caravel_interfaces import SPI
 from caravel_cocotb.caravel_interfaces import SPI
@@ -21,7 +21,7 @@ from models.housekeeping_model.hk_regs import HK_Registers
 @cocotb.test()
 @report_test
 async def hk_regs_wr_wb(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=111678, num_error=INFINITY)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=111678, num_error=INFINITY)
     cpu = RiskV(dut)
     cpu.cpu_force_reset()
     hk_file = f'{cocotb.plusargs["MAIN_PATH"]}/models/housekeepingWB/HK_regs.json'
@@ -106,7 +106,7 @@ async def hk_regs_wr_wb(dut):
 @cocotb.test()
 @report_test
 async def hk_regs_wr_wb_cpu(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=294366)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=294366)
     debug_regs = await configure_userdesign(caravelEnv)
     reg1 = 0  # buffer
     reg2 = 0
@@ -156,7 +156,7 @@ async def hk_regs_wr_wb_cpu(dut):
 @cocotb.test()
 @report_test
 async def hk_regs_wr_spi(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=20681, num_error=0)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=20681, num_error=0)
     spi_master = SPI(caravelEnv)
     debug_regs = await configure_userdesign(caravelEnv)
     regs = HK_Registers(caravelEnv).regs_spi
@@ -213,7 +213,7 @@ async def hk_regs_wr_spi(dut):
 @cocotb.test()
 @report_test
 async def hk_regs_rst_spi(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=20681, num_error=INFINITY)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=20681, num_error=INFINITY)
     spi_master = SPI(caravelEnv)
     debug_regs = await configure_userdesign(caravelEnv)
     regs = HK_Registers(caravelEnv).regs_spi

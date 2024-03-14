@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from caravel_cocotb.caravel_interfaces import SPI
 from user_design import configure_userdesign
@@ -13,7 +13,7 @@ from user_design import configure_userdesign
 @cocotb.test()
 @report_test
 async def IRQ_spi(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=412992)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=412992)
     spi_master = SPI(caravelEnv)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start IRQ_spi test")

@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from user_design import configure_userdesign
 
@@ -9,7 +9,7 @@ from user_design import configure_userdesign
 @cocotb.test()
 @report_test
 async def la(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=321175)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=321175)
     debug_regs = await configure_userdesign(caravelEnv, la_test=True)
     pass_list = (0x1B, 0x2B, 0x3B, 0x4B, 0x5B, 0x6B, 0x7B, 0x8B, 0x9B, 0xaB, 0xbB, 0xcB)
     fail_list = (0x1E, 0x2E, 0x3E, 0x4E, 0x5E, 0x6E, 0x7E, 0x8E, 0x9E, 0xaE, 0xbE, 0xcE)

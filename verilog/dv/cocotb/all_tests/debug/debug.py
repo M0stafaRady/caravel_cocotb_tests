@@ -2,7 +2,7 @@ import random
 import cocotb
 from cocotb.triggers import Timer
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from user_design import configure_userdesign
 
@@ -12,7 +12,7 @@ bit_time_ns = 0
 @cocotb.test()
 @report_test
 async def debug(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=81933)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=81933)
     debug_regs = await configure_userdesign(caravelEnv)
     # calculate bit time
     clock = caravelEnv.get_clock_obj()

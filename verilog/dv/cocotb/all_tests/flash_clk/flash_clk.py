@@ -1,11 +1,11 @@
 import cocotb
 from cocotb.triggers import Edge, RisingEdge, FallingEdge, ClockCycles
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 @cocotb.test()
 @report_test
 async def flash_clk(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1999191)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1999191)
     clock = caravelEnv.get_clock_period()
     csb = dut.flash_csb_tb
     clk = dut.flash_clk_tb

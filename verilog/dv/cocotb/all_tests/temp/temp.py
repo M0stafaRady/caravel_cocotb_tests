@@ -1,14 +1,14 @@
 import cocotb
 from cocotb.triggers import RisingEdge, ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 
 
 @cocotb.test()
 @report_test
 async def temp(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1137599)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1137599)
     cocotb.log.info("[TEST] start  temp")
     caravelEnv.release_csb()
     await caravelEnv.wait_mgmt_gpio(1)  # wait for gpio configuration to happened

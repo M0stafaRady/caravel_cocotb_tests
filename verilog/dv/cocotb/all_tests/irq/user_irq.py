@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from user_design import configure_userdesign
 
@@ -25,7 +25,7 @@ async def user2_irq(dut):
 
 
 async def user_irq(dut, irq_num):
-    caravelEnv = await test_configure(dut, timeout_cycles=295956)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=295956)
     debug_regs = await configure_userdesign(caravelEnv)
     caravelEnv.user_hdl.irq0.value = 0
     caravelEnv.user_hdl.irq1.value = 0

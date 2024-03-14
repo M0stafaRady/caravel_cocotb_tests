@@ -1,14 +1,14 @@
 import cocotb
 from cocotb.triggers import ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 
 
 @cocotb.test()
 @report_test
 async def user_ram(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1167331)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1167331)
     cocotb.log.info("[TEST] Start user RAM word access stress test")
     pass_list = [0x1B]
     fail_list = [0x1E]

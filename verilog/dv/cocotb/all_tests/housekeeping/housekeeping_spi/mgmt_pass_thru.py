@@ -1,6 +1,6 @@
 import cocotb
 from cocotb.triggers import FallingEdge, RisingEdge
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from caravel_cocotb.caravel_interfaces import SPI
 from random import randrange
@@ -14,7 +14,7 @@ bit_time_ns = 0
 @cocotb.test()
 @report_test
 async def mgmt_pass_thru_rd(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=37247)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=37247)
     spi_master = SPI(caravelEnv)
     debug_regs = await configure_userdesign(caravelEnv)
     hex_path = f"{cocotb.plusargs['SIM_DIR']}/{cocotb.plusargs['FTESTNAME']}/firmware.hex".replace('"', "")

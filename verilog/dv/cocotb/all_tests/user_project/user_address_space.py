@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import RisingEdge, NextTimeStep
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from user_design import configure_userdesign
 
@@ -9,7 +9,7 @@ from user_design import configure_userdesign
 @cocotb.test()
 @report_test
 async def user_address_space(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=31776)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=31776)
     cocotb.log.info("[TEST] Start user_address_space test")
     ack_hdl = caravelEnv.caravel_hdl.mprj.wbs_ack_o
     addr_hdl = caravelEnv.caravel_hdl.mprj.wbs_adr_i

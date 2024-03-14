@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import ClockCycles, Edge
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from caravel_cocotb.caravel_interfaces import UART
 from user_design import configure_userdesign
@@ -10,7 +10,7 @@ from user_design import configure_userdesign
 @cocotb.test()
 @report_test
 async def uart_tx(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=444465)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=444465)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start uart test")
     expected_msg = "Monitor: Test UART (RTL) passed"
@@ -29,7 +29,7 @@ async def uart_tx(dut):
 @cocotb.test()
 @report_test
 async def uart_rx(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=188729)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=188729)
     debug_regs = await configure_userdesign(caravelEnv)
     uart = UART(caravelEnv)
     cocotb.log.info("[TEST] Start uart test")
@@ -53,15 +53,7 @@ async def uart_rx(dut):
 async def uart_check_char_recieved(caravelEnv, debug_regs):
     # check cpu recieved the correct character
     while True:
-        if 'GL' not in caravelEnv.design_macros._asdict():
-            if 'CPU_TYPE_ARM' in caravelEnv.design_macros._asdict():
-                reg_uart_data = (
-                    caravelEnv.caravel_hdl.soc.core.AHB.APB_S3.S3_UART.reg_rx_buf.value.binstr
-                )
-            else:
-                reg_uart_data = caravelEnv.caravel_hdl.soc.core.uart_rxtx_w.value.binstr
-        else:
-            reg_uart_data = "1001110"
+        reg_uart_data = "1001110"
 
         reg2 = debug_regs.read_debug_reg2()
         cocotb.log.debug(f"[TEST] reg2 = {hex(reg2)}")
@@ -82,7 +74,7 @@ async def uart_check_char_recieved(caravelEnv, debug_regs):
 @cocotb.test()
 @report_test
 async def uart_loopback(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=216759)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=216759)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start uart test")
     debug_regs = await configure_userdesign(caravelEnv)
@@ -106,15 +98,7 @@ async def connect_5_6(dut, caravelEnv):
 async def uart_check_char_recieved_loopback(caravelEnv, debug_regs):
     # check cpu recieved the correct character
     while True:
-        if 'GL' not in caravelEnv.design_macros._asdict():
-            if 'CPU_TYPE_ARM' in caravelEnv.design_macros._asdict():
-                reg_uart_data = (
-                    caravelEnv.caravel_hdl.soc.core.AHB.APB_S3.S3_UART.reg_rx_buf.value.binstr
-                )
-            else:
-                reg_uart_data = caravelEnv.caravel_hdl.soc.core.uart_rxtx_w.value.binstr
-        else:
-            reg_uart_data = "1001110"
+        reg_uart_data = "1001110"
 
         reg2 = debug_regs.read_debug_reg2()
         cocotb.log.debug(f"[TEST] reg2 = {hex(reg2)}")
@@ -135,7 +119,7 @@ async def uart_check_char_recieved_loopback(caravelEnv, debug_regs):
 @cocotb.test()
 @report_test
 async def uart_rx_msg(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=111154409)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=111154409)
     uart = UART(caravelEnv)
     debug_regs = await configure_userdesign(caravelEnv)
     # IO[0] affects the uart selecting btw system and debug

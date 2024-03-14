@@ -1,6 +1,7 @@
 #include <firmware_apis.h>
 
 #include <bitbang.h>
+#include <dft.h>
 
 void main(){
     enable_debug();
@@ -27,7 +28,7 @@ void main(){
 
 void wait_over_input_l(unsigned int start_code, unsigned int exp_val){
     set_debug_reg1(start_code); // configuration done wait environment to send exp_val to reg_mprj_datal
-    GPIOs_waitLow(exp_val);
+    GPIOs_waitLow_dft(exp_val);
     set_debug_reg2(GPIOs_readLow());
 
 }

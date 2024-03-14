@@ -2,7 +2,7 @@ import random
 import cocotb
 from cocotb.triggers import FallingEdge, RisingEdge, ClockCycles, Timer
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from collections import namedtuple
 from cocotb.handle import Force
@@ -23,7 +23,7 @@ ACK = {int("100", 2): "OK", int("010", 2): "WAIT", int("001", 2): "FAULT"}
 async def debug_swd(dut):
     dut._id(f"gpio{35}", False).value = 0
     dut._id(f"gpio{35}_en", False).value = Force(1)
-    caravelEnv = await test_configure(dut, timeout_cycles=1131011)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1131011)
     debug_regs = await configure_userdesign(caravelEnv)
     caravelEnv.drive_gpio_in(0, 1)
     caravelEnv.drive_gpio_in(35, 0)

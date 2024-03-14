@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from user_design import configure_userdesign
 
@@ -9,7 +9,7 @@ from user_design import configure_userdesign
 @cocotb.test()
 @report_test
 async def mem_dff2_W(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=3478259)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=3478259)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mem dff2 word access stress test")
     pass_list = [0x1B]
@@ -34,7 +34,7 @@ async def mem_dff2_W(dut):
 @cocotb.test()
 @report_test
 async def mem_dff2_HW(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=3931459)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=3931459)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mem dff2 half word access stress test")
     pass_list = [0x1B]
@@ -59,7 +59,7 @@ async def mem_dff2_HW(dut):
 @cocotb.test()
 @report_test
 async def mem_dff2_B(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=5333959)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=5333959)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mem dff2 Byte access stress test")
     pass_list = [0x1B]
@@ -84,7 +84,7 @@ async def mem_dff2_B(dut):
 @cocotb.test()
 @report_test
 async def mem_dff_W(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=7219359)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=7219359)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mem dff word access stress test")
     pass_list = [0x1B]
@@ -107,7 +107,7 @@ async def mem_dff_W(dut):
 @cocotb.test()
 @report_test
 async def mem_dff_HW(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=7817759)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=7817759)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mem dff half word access stress test")
     pass_list = [0x1B]
@@ -130,7 +130,7 @@ async def mem_dff_HW(dut):
 @cocotb.test()
 @report_test
 async def mem_dff_B(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=10640359)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=10640359)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mem dff Byte access stress test")
     pass_list = [0x1B]
@@ -153,7 +153,7 @@ async def mem_dff_B(dut):
 @cocotb.test()
 @report_test
 async def mem_sram_W(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=118083081)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=118083081)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start sram word access stress test")
     pass_list = [0x1B]
@@ -180,7 +180,7 @@ async def mem_sram_W(dut):
 @cocotb.test()
 @report_test
 async def mem_sram_HW(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1116274181)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1116274181)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start sram halfword access stress test")
     pass_list = [0x1B]
@@ -206,7 +206,7 @@ async def mem_sram_HW(dut):
 @cocotb.test()
 @report_test
 async def mem_sram_B(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1128500231)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1128500231)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start sram byte access stress test")
     pass_list = [0x1B]
@@ -232,7 +232,7 @@ async def mem_sram_B(dut):
 @cocotb.test()
 @report_test
 async def mem_sram_smoke(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=11655541)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=11655541)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start sram smoke test")
     pass_list = [0x1B]

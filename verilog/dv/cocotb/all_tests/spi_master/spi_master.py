@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import FallingEdge, RisingEdge, ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from all_tests.spi_master.SPI_VIP import read_mem, SPI_VIP
 from user_design import configure_userdesign
@@ -15,7 +15,7 @@ async def spi_master_rd(dut):
     the method of testing used can't work if 2 addresses Consecutive have the same address
     """
 
-    caravelEnv = await test_configure(dut, timeout_cycles=1362179)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1362179)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] start spi_master_rd test")
     file_name = f'{cocotb.plusargs["USER_PROJECT_ROOT"]}/verilog/dv/cocotb/all_tests/spi_master/test_data'.replace('"', '')
@@ -86,7 +86,7 @@ async def spi_master_temp(dut):
 
     the method of testing used can't work if 2 addresses Consecutive have the same address
     """
-    caravelEnv = await test_configure(dut, timeout_cycles=114548)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=114548)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] start spi_master_temp test")
     CSB = dut.gpio33_monitor

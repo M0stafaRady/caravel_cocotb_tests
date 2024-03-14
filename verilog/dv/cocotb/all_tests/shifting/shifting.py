@@ -1,6 +1,6 @@
 import cocotb
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from user_design import configure_userdesign
 
@@ -54,7 +54,7 @@ def shift(gpio, shift_type, caravelEnv):
 @cocotb.test()
 @report_test
 async def serial_shifting_10(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=540110)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=540110)
     debug_regs = await configure_userdesign(caravelEnv)
     uut = dut.uut.chip_core
     debug_regs = await configure_userdesign(caravelEnv)
@@ -155,7 +155,7 @@ async def serial_shifting_10(dut):
 @cocotb.test()
 @report_test
 async def serial_shifting_01(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=541278)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=541278)
     debug_regs = await configure_userdesign(caravelEnv)
     uut = dut.uut.chip_core
     debug_regs = await configure_userdesign(caravelEnv)
@@ -256,7 +256,7 @@ async def serial_shifting_01(dut):
 @cocotb.test()
 @report_test
 async def serial_shifting_0011(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=700516)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=700516)
     debug_regs = await configure_userdesign(caravelEnv)
     uut = dut.uut.chip_core
     debug_regs = await configure_userdesign(caravelEnv)
@@ -357,7 +357,7 @@ async def serial_shifting_0011(dut):
 @cocotb.test()
 @report_test
 async def serial_shifting_1100(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=700331)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=700331)
     debug_regs = await configure_userdesign(caravelEnv)
     uut = dut.uut.chip_core
     debug_regs = await configure_userdesign(caravelEnv)

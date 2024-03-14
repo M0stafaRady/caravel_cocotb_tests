@@ -3,7 +3,7 @@ from cocotb.triggers import ClockCycles
 import cocotb.log
 from caravel_cocotb.interfaces.cpu import RiskV 
 from caravel_cocotb.interfaces.defsParser import Regs
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 
 from caravel_cocotb.caravel_interfaces import GPIO_MODE
@@ -14,7 +14,7 @@ reg = Regs()
 @cocotb.test()
 @report_test
 async def bitbang_no_cpu_all_o(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=119373)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=119373)
     cpu = RiskV(dut)
     cpu.cpu_force_reset()
     await cpu.drive_data2address(
@@ -217,7 +217,7 @@ async def bitbang_no_cpu_all_o(dut):
 @cocotb.test()
 @report_test
 async def bitbang_no_cpu_all_i(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=117351)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=117351)
     cpu = RiskV(dut)
     cpu.cpu_force_reset()
     await cpu.drive_data2address(

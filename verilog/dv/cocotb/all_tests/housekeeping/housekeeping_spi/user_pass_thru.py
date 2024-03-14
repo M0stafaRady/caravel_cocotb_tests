@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import FallingEdge, RisingEdge
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from all_tests.spi_master.SPI_VIP import read_mem, SPI_VIP
 from caravel_cocotb.caravel_interfaces import SPI
@@ -15,7 +15,7 @@ bit_time_ns = 0
 @cocotb.test()
 @report_test
 async def user_pass_thru_rd(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=89712)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=89712)
     spi_master = SPI(caravelEnv)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] start spi_master_rd test")
@@ -58,7 +58,7 @@ async def user_pass_thru_rd(dut):
 @cocotb.test()
 @report_test
 async def user_pass_thru_connection(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=86033)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=86033)
     spi_master = SPI(caravelEnv)
     debug_regs = await configure_userdesign(caravelEnv)
     await debug_regs.wait_reg1(0xAA)

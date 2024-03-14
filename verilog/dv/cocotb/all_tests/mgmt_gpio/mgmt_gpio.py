@@ -2,7 +2,7 @@ import random
 import cocotb
 from cocotb.triggers import ClockCycles, Edge
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 
 from user_design import configure_userdesign
@@ -13,7 +13,7 @@ from user_design import configure_userdesign
 @cocotb.test()
 @report_test
 async def mgmt_gpio_out(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=431562)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=431562)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mgmt_gpio_out test")
     phases_fails = 3
@@ -67,7 +67,7 @@ async def mgmt_gpio_out(dut):
 @cocotb.test()
 @report_test
 async def mgmt_gpio_in(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1119535)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1119535)
     caravelEnv.drive_mgmt_gpio(0)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mgmt_gpio_in test")
@@ -118,7 +118,7 @@ async def mgmt_gpio_in(dut):
 @cocotb.test()
 @report_test
 async def mgmt_gpio_bidir(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1904514)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1904514)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mgmt_gpio_bidir test")
     debug_regs = await configure_userdesign(caravelEnv)
@@ -165,7 +165,7 @@ async def blink_counter(hdl, counter):
 @cocotb.test()
 @report_test
 async def mgmt_gpio_pu_pd(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=66129)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=66129)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mgmt_gpio_pu_pd test")
     debug_regs = await configure_userdesign(caravelEnv)
@@ -199,7 +199,7 @@ async def mgmt_gpio_pu_pd(dut):
 @cocotb.test()
 @report_test
 async def mgmt_gpio_disable(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=117797)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=117797)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start mgmt_gpio_disable test")
     phases_fails = 2

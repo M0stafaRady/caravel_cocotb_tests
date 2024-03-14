@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from user_design import configure_userdesign
 
@@ -12,7 +12,7 @@ from user_design import configure_userdesign
 @cocotb.test()
 @report_test
 async def timer0_oneshot(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=159867)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=159867)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start timer0_oneshot test")
     cocotb.log.info("[TEST] Configure timer as oneshot")
@@ -63,7 +63,7 @@ async def timer0_oneshot(dut):
 @cocotb.test()
 @report_test
 async def timer0_periodic(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=296520)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=296520)
     debug_regs = await configure_userdesign(caravelEnv)
     cocotb.log.info("[TEST] Start timer0_periodic test")
     cocotb.log.info("[TEST] Configure timer as periodic")

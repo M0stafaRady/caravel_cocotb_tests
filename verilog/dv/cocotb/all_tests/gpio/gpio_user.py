@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import ClockCycles, Edge
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from all_tests.gpio.gpio_seq import gpio_all_o_seq
 from all_tests.gpio.gpio_seq import gpio_all_i_seq
@@ -13,7 +13,7 @@ from user_design import configure_userdesign
 @cocotb.test()
 @report_test
 async def gpio_all_o_user(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=2010463)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=2010463)
     debug_regs = await configure_userdesign(caravelEnv, gpio_test=gpio_all_o_vip)
     await gpio_all_o_seq(dut, caravelEnv, debug_regs)
 
@@ -42,7 +42,7 @@ async def gpio_all_o_vip(caravelEnv, debug_regs, IOs):
 @cocotb.test()
 @report_test
 async def gpio_all_i_user(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=287465)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=14968)
     debug_regs = await configure_userdesign(caravelEnv, gpio_test=gpio_all_i_vip)
     await gpio_all_i_seq(dut, caravelEnv, debug_regs)
 
@@ -67,7 +67,7 @@ async def wait_over_input(start_code, exp_val, debug_regs, io_in, high=False):
     debug_regs.write_debug_reg1_backdoor(start_code)
     while True:
         io_in_val = io_in.value.integer if not high else io_in.value.integer >> 32
-        if io_in_val == exp_val:
+        if io_in_val & 0x7FFFFFF == exp_val & 0x7FFFFFF:
             break
         await Edge(io_in)
     debug_regs.write_debug_reg2_backdoor(io_in_val)
@@ -77,7 +77,7 @@ async def wait_over_input(start_code, exp_val, debug_regs, io_in, high=False):
 @cocotb.test()
 @report_test
 async def gpio_all_i_pu_user(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=86252)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=86252)
     debug_regs = await configure_userdesign(caravelEnv, gpio_test=gpio_all_pu_vip)
     await gpio_all_i_pu_seq(dut, caravelEnv, debug_regs)
 
@@ -91,7 +91,7 @@ async def gpio_all_pu_vip(caravelEnv, debug_regs, IOs):
 @cocotb.test()
 @report_test
 async def gpio_all_i_pd_user(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=76198)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=76198)
     debug_regs = await configure_userdesign(caravelEnv, gpio_test=gpio_all_pd_vip)
     await gpio_all_i_pd_seq(dut, caravelEnv, debug_regs)
 
@@ -105,9 +105,9 @@ async def gpio_all_pd_vip(caravelEnv, debug_regs, IOs):
 @cocotb.test()
 @report_test
 async def gpio_all_bidir_user(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=2259813)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=2259813)
     active_gpios_num = caravelEnv.active_gpios_num -1
-    debug_regs = await configure_userdesign(caravelEnv, gpio_test=gpio_all_bidir_vip)
+    debug_regs = await configure_userdesign(caravelEnv, gpio_test=gpio_all_bidir_vip) 
     await debug_regs.wait_reg1(0x1A)
     await caravelEnv.release_csb()
     cocotb.log.info("[TEST] finish configuring ")

@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import RisingEdge, ClockCycles
 import cocotb.log
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 
 from user_design import configure_userdesign
@@ -13,7 +13,7 @@ user_clock = 0
 @cocotb.test()
 @report_test
 async def pll(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1147279)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1147279)
     debug_regs = await configure_userdesign(caravelEnv)
     error_margin = 0.1
     debug_regs = await configure_userdesign(caravelEnv)

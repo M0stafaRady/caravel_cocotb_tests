@@ -4,14 +4,14 @@ import cocotb
 from cocotb.queue import Queue
 from cocotb.triggers import Combine
 from user_design import configure_userdesign
-from caravel_cocotb.caravel_interfaces import test_configure
+from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
 from user_monitor_driver import UserPins
 
 @cocotb.test()
 @report_test
 async def check_defaults(dut):
-    caravelEnv = await test_configure(dut, timeout_cycles=1145328)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=1145328)
     debug_regs = await configure_userdesign(caravelEnv)
     user_pins = UserPins(caravelEnv)
     gpio_test = GPIOsDefaultTests(caravelEnv, user_pins, debug_regs)
