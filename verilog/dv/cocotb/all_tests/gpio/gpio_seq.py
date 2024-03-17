@@ -136,55 +136,66 @@ async def gpio_all_o_seq(dut, caravelEnv, debug_regs, after_config_callback=None
     cocotb.log.info("[TEST] finish configuring output")
     i = 0x1 << (active_gpios_num - 32)
     i_temp = i
+    jtag_list = [31, 30, 29, 28, 27]
+    low_gpios_list = [i for i in range(32) if i not in jtag_list]
     for j in range(active_gpios_num - 31):
         await debug_regs.wait_reg2(active_gpios_num + 1  - j)
         cocotb.log.info(
             f"[Test] gpio out = {caravelEnv.monitor_gpio((active_gpios_num,0))} j = {j}"
         )
-        if caravelEnv.monitor_gpio((active_gpios_num, 0)).integer != i << 32:
+        if get_gpio_int(caravelEnv) != i << 32:
             cocotb.log.error(
-                f"[TEST] Wrong gpio high bits output {caravelEnv.monitor_gpio((active_gpios_num,0))} instead of {bin(i<<32)}"
+                f"[TEST] Wrong gpio high bits output {bin(get_gpio_int(caravelEnv))} instead of {bin(i<<32)}"
             )
         debug_regs.write_debug_reg1_backdoor(0xD1)  # finsh reading 1
         await debug_regs.wait_reg2(0)
-        if caravelEnv.monitor_gpio((active_gpios_num, 0)).integer != 0:
+        if get_gpio_int(caravelEnv) != 0:
             cocotb.log.error(
-                f"[TEST] Wrong gpio output {caravelEnv.monitor_gpio((active_gpios_num,0))} instead of {bin(0x00000)}"
+                f"[TEST] Wrong gpio output {bin(get_gpio_int(caravelEnv))} instead of {bin(0x00000)}"
             )
         debug_regs.write_debug_reg1_backdoor(0xD0)  # finsh reading 0
         i = i >> 1
         i |= i_temp
 
-    i = 0x80000000
-    for j in range(32):
-        await debug_regs.wait_reg2(32 - j)
+    i = 0x4000000
+    for j in low_gpios_list:
+        await debug_regs.wait_reg2(27 - j)
         cocotb.log.info(
             f"[Test] gpio out = {caravelEnv.monitor_gpio((active_gpios_num,0))} j = {j}"
         )
         high_gpio_val = 0x3F
         if "CPU_TYPE_ARM" in caravelEnv.design_macros._asdict():
             high_gpio_val = 0x7  # with ARM the last 3 gpios are not configurable
-        if caravelEnv.monitor_gpio((active_gpios_num, 32)).integer != high_gpio_val:
+        if get_gpio_int(caravelEnv, is_high=True) != high_gpio_val:
             cocotb.log.error(
-                f"[TEST] Wrong gpio high bits output {caravelEnv.monitor_gpio((active_gpios_num,32))} instead of {bin(high_gpio_val)} "
+                f"[TEST] Wrong gpio high bits output {bin(get_gpio_int(caravelEnv, is_high=True))} instead of {bin(high_gpio_val)} "
             )
-        if caravelEnv.monitor_gpio((31, 0)).integer != i:
+        if get_gpio_int(caravelEnv, is_low=True) != i:
             cocotb.log.error(
-                f"[TEST] Wrong gpio low bits output {caravelEnv.monitor_gpio((31,0))} instead of {bin(i)}"
+                f"[TEST] Wrong gpio low bits output {bin(get_gpio_int(caravelEnv, is_low=True))} instead of {bin(i)}"
             )
         debug_regs.write_debug_reg1_backdoor(0xD1)  # finsh reading 1
         await debug_regs.wait_reg2(0)
-        if caravelEnv.monitor_gpio((active_gpios_num, 0)).integer != 0:
+        if get_gpio_int(caravelEnv) != 0:
             cocotb.log.error(
-                f"Wrong gpio output {caravelEnv.monitor_gpio((active_gpios_num,0))} instead of {bin(0x00000)}"
+                f"Wrong gpio output {bin(get_gpio_int(caravelEnv))} instead of {bin(0x00000)}"
             )
         debug_regs.write_debug_reg1_backdoor(0xD0)  # finsh reading 0
         i = i >> 1
-        i |= 0x80000000
+        i |= 0x4000000
 
     await debug_regs.wait_reg1(0xFF)
     await ClockCycles(caravelEnv.clk, 10)
 
+def get_gpio_int(caravelEnv, is_low=False, is_high=False):
+    low= caravelEnv.monitor_gpio((26, 0)).integer
+    if is_low:
+        return low
+    high = caravelEnv.monitor_gpio((37, 32)).integer
+    if is_high:
+        return high
+    full_int = low | high << 32
+    return full_int
 
 async def gpio_all_i_pd_seq(dut, caravelEnv, debug_regs):
     active_gpios_num = caravelEnv.active_gpios_num-1

@@ -66,7 +66,7 @@ void main(){
         set_debug_reg1(0x30);
     if (reg_hkspi_disable!= 0x1) // size 1
         set_debug_reg1(0x31);
-    if (reg_clk_out_dest!= 0x5) // trap and clocks redirect
+    if (reg_clk_out_dest!= 0x15) // trap and clocks redirect
         set_debug_reg1(0x32);
     // // write 01 to all registers
     data_in = 0xAAAAAAAA;
@@ -122,7 +122,7 @@ void main(){
         set_debug_reg2(0x30);
     if (reg_hkspi_disable!= 0x0) // size 1
         set_debug_reg2(0x31);
-    if (reg_clk_out_dest!= 0x2) // trap and clocks redirect
+    if (reg_clk_out_dest!= 0xA) // trap and clocks redirect
         set_debug_reg2(0x32);
 
     set_debug_reg2(0xFF);

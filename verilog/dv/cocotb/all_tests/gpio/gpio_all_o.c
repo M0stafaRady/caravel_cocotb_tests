@@ -24,18 +24,18 @@ void main(){
                 i >>=1;
                 i |= i_temp;
         }
-        i = 0x80000000;
-        for (j = 0; j < 32; j++) {
+        i = 0x4000000;
+        for (j = 0; j < 27; j++) {
                 GPIOs_writeHigh(0x3f);
                 GPIOs_writeLow(i);
-                set_debug_reg2(32-j);
+                set_debug_reg2(27-j);
                 wait_debug_reg1(0xD1); // wait until test read 1
                 GPIOs_writeHigh(0x00);
                 GPIOs_writeLow(0x0);
                 set_debug_reg2(0);
                 wait_debug_reg1(0xD0);// wait until test read 0
                 i >>=1;
-                i |= 0x80000000;
+                i |= 0x4000000;
         }
         set_debug_reg1(0XFF); // configuration done wait environment to send 0xFFA88C5A to reg_mprj_datal
 }

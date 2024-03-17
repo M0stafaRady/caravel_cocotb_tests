@@ -8,7 +8,7 @@ from all_tests.gpio.gpio_seq import gpio_all_i_seq
 from all_tests.gpio.gpio_seq import gpio_all_i_pu_seq
 from all_tests.gpio.gpio_seq import gpio_all_i_pd_seq
 from user_design import configure_userdesign
-
+from all_tests.gpio.gpio_seq import get_gpio_int
 
 @cocotb.test()
 @report_test
@@ -22,9 +22,14 @@ async def gpio_all_o_vip(caravelEnv, debug_regs, IOs):
     IOs["oeb"].value = 0
     IOs["out"].value = 0
     active_gpios_num = caravelEnv.active_gpios_num-1
+    jtag_list = [31, 30, 29, 28, 27]
     i = 0x2000000000
     await debug_regs.wait_reg1(0xAA)
     for j in range(active_gpios_num + 1, 0, -1):
+        if j-1 in jtag_list:
+            i >>= 1
+            i |= 0x2000000000
+            continue
         IOs["out"].value = i
         await ClockCycles(caravelEnv.clk, 1)
         debug_regs.write_debug_reg2_backdoor(j)
@@ -113,63 +118,68 @@ async def gpio_all_bidir_user(dut):
     cocotb.log.info("[TEST] finish configuring ")
     i = 0x1 << (active_gpios_num - 32)
     i_temp = i
+    jtag_list = [31, 30, 29, 28, 27]
+    low_gpios_list = [i for i in range(32) if i not in jtag_list]
+    gpios_list = [i for i in range(active_gpios_num + 1) if i not in jtag_list]
     for j in range(active_gpios_num - 31):
         await debug_regs.wait_reg2(active_gpios_num + 1 - j)
         cocotb.log.info(
             f"[Test] gpio out = {caravelEnv.monitor_gpio((active_gpios_num,0))} j = {j}"
         )
-        if caravelEnv.monitor_gpio((active_gpios_num, 0)).integer != i << 32:
+        if get_gpio_int(caravelEnv) != i << 32:
             cocotb.log.error(
-                f"[TEST] Wrong gpio high bits output {caravelEnv.monitor_gpio((active_gpios_num,0))} instead of {bin(i<<32)}"
+                f"[TEST] Wrong gpio high bits output {bin(get_gpio_int(caravelEnv))} instead of {bin(i<<32)}"
             )
         debug_regs.write_debug_reg1_backdoor(0xD1)  # finsh reading 1
         await debug_regs.wait_reg2(0)
-        if caravelEnv.monitor_gpio((active_gpios_num, 0)).integer != 0:
+        if get_gpio_int(caravelEnv) != 0:
             cocotb.log.error(
-                f"[TEST] Wrong gpio output {caravelEnv.monitor_gpio((active_gpios_num,0))} instead of {bin(0x00000)}"
+                f"[TEST] Wrong gpio output {bin(get_gpio_int(caravelEnv))} instead of {bin(0x00000)}"
             )
         debug_regs.write_debug_reg1_backdoor(0xD0)  # finsh reading 0
         i = i >> 1
         i |= i_temp
 
-    i = 0x80000000
-    for j in range(32):
-        await debug_regs.wait_reg2(32 - j)
+    i = 0x4000000
+    for j in low_gpios_list:
+        await debug_regs.wait_reg2(27 - j)
         cocotb.log.info(
             f"[Test] gpio out = {caravelEnv.monitor_gpio((active_gpios_num,0))} j = {j}"
         )
         high_gpio_val = 0x3F
         if "CPU_TYPE_ARM" in caravelEnv.design_macros._asdict():
             high_gpio_val = 0x7  # with ARM the last 3 gpios are not configurable
-        if caravelEnv.monitor_gpio((active_gpios_num, 32)).integer != high_gpio_val:
+        if get_gpio_int(caravelEnv, is_high=True) != high_gpio_val:
             cocotb.log.error(
-                f"[TEST] Wrong gpio high bits output {caravelEnv.monitor_gpio((active_gpios_num,32))} instead of {bin(high_gpio_val)} "
+                f"[TEST] Wrong gpio high bits output {bin(get_gpio_int(caravelEnv, is_high=True))} instead of {bin(high_gpio_val)} "
             )
-        if caravelEnv.monitor_gpio((31, 0)).integer != i:
+        if get_gpio_int(caravelEnv, is_low=True) != i:
             cocotb.log.error(
-                f"[TEST] Wrong gpio low bits output {caravelEnv.monitor_gpio((31,0))} instead of {bin(i)}"
+                f"[TEST] Wrong gpio low bits output {bin(get_gpio_int(caravelEnv, is_low=True))} instead of {bin(i)}"
             )
         debug_regs.write_debug_reg1_backdoor(0xD1)  # finsh reading 1
         await debug_regs.wait_reg2(0)
-        if caravelEnv.monitor_gpio((active_gpios_num, 0)).integer != 0:
+        if get_gpio_int(caravelEnv) != 0:
             cocotb.log.error(
-                f"Wrong gpio output {caravelEnv.monitor_gpio((active_gpios_num,0))} instead of {bin(0x00000)}"
+                f"Wrong gpio output {bin(get_gpio_int(caravelEnv))} instead of {bin(0x00000)}"
             )
         debug_regs.write_debug_reg1_backdoor(0xD0)  # finsh reading 0
         i = i >> 1
-        i |= 0x80000000
+        i |= 0x4000000
     cocotb.log.info("[TEST] finish output")
     # input
-    caravelEnv.release_gpio((active_gpios_num, 0))
+    for i in gpios_list:
+        caravelEnv.release_gpio(i)
     await ClockCycles(caravelEnv.clk, 1)
     caravelEnv.drive_gpio_in((active_gpios_num, 0), 0)
     await ClockCycles(caravelEnv.clk, 1)
     await debug_regs.wait_reg1(0xAA)
-    data_in = 0xFFFFFFFF
+    data_in = 0x7FFFFFF
     cocotb.log.info(f"[TEST] drive {hex(data_in)} to gpio[31:0]")
     caravelEnv.drive_gpio_in((31, 0), data_in)
+    cocotb.log.info(f"herererere")
     await debug_regs.wait_reg1(0xBB)
-    if debug_regs.read_debug_reg2() == data_in:
+    if debug_regs.read_debug_reg2() & 0x7FFFFFF == data_in:
         cocotb.log.info(
             f"[TEST] data {hex(data_in)} sent successfully through gpio[31:0]"
         )
@@ -177,11 +187,11 @@ async def gpio_all_bidir_user(dut):
         cocotb.log.error(
             f"[TEST] Error: reg_mprj_datal has recieved wrong data {debug_regs.read_debug_reg2()} instead of {data_in}"
         )
-    data_in = 0xAAAAAAAA
+    data_in = 0xAAAAAAAA & 0x7FFFFFF
     cocotb.log.info(f"[TEST] drive {hex(data_in)} to gpio[31:0]")
     caravelEnv.drive_gpio_in((31, 0), data_in)
     await debug_regs.wait_reg1(0xCC)
-    if debug_regs.read_debug_reg2() == data_in:
+    if debug_regs.read_debug_reg2() & 0x7FFFFFF == data_in:
         cocotb.log.info(
             f"[TEST] data {hex(data_in)} sent successfully through gpio[31:0]"
         )
@@ -189,11 +199,11 @@ async def gpio_all_bidir_user(dut):
         cocotb.log.error(
             f"[TEST] Error: reg_mprj_datal has recieved wrong data {debug_regs.read_debug_reg2()} instead of {data_in}"
         )
-    data_in = 0x55555555
+    data_in = 0x55555555 & 0x7FFFFFF
     cocotb.log.info(f"[TEST] drive {hex(data_in)} to gpio[31:0]")
     caravelEnv.drive_gpio_in((31, 0), data_in)
     await debug_regs.wait_reg1(0xDD)
-    if debug_regs.read_debug_reg2() == data_in:
+    if debug_regs.read_debug_reg2() & 0x7FFFFFF == data_in:
         cocotb.log.info(
             f"[TEST] data {hex(data_in)} sent successfully through gpio[31:0]"
         )
@@ -205,13 +215,13 @@ async def gpio_all_bidir_user(dut):
     cocotb.log.info(f"[TEST] drive {hex(data_in)} to gpio[31:0]")
     caravelEnv.drive_gpio_in((31, 0), data_in)
     await debug_regs.wait_reg1(0xD1)
-    if debug_regs.read_debug_reg2() == data_in:
+    if debug_regs.read_debug_reg2() & 0x7FFFFFF == data_in:
         cocotb.log.info(
             f"[TEST] data {hex(data_in)} sent successfully through gpio[31:0]"
         )
     else:
         cocotb.log.error(
-            f"[TEST] Error: reg_mprj_datal has recieved wrong data {debug_regs.read_debug_reg2()} instead of {data_in}"
+            f"[TEST] Error: reg_mprj_datal has recieved wrong data {debug_regs.read_debug_reg2() & 0x7FFFFFF} instead of {data_in}"
         )
     data_in = 0x3F
     data_in = int(bin(data_in).replace("0b", "")[31 - active_gpios_num:], 2)
@@ -263,9 +273,14 @@ async def gpio_all_bidir_vip(caravelEnv, debug_regs, IOs):
     IOs["oeb"].value = 0
     IOs["out"].value = 0
     active_gpios_num = caravelEnv.active_gpios_num-1
+    jtag_list = [31, 30, 29, 28, 27]
     i = 0x2000000000
     await debug_regs.wait_reg1(0x1A)
     for j in range(active_gpios_num + 1, 0, -1):
+        if j-1 in jtag_list:
+            i >>= 1
+            i |= 0x2000000000
+            continue
         IOs["out"].value = i
         await ClockCycles(caravelEnv.clk, 1)
         debug_regs.write_debug_reg2_backdoor(j)

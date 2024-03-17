@@ -436,7 +436,7 @@ registers:
   - name: trap_clock_redirect
     spi_address: 0x1b
     wb_addr: 0x26200004
-    width: 3
+    width: 5
     reset: 0x0
     access_type: rw
     backdoor_hdl: null
