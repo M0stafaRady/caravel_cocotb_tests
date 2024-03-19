@@ -9,8 +9,9 @@ async def test_configure_dft(dut: cocotb.handle.SimHandle,
     clk=read_config_file()['clock'],
     timeout_precision=0.2,
     num_error=int(read_config_file()['max_err']),
-    start_up=True):
-    disable_jtag_testmode(dut)
+    start_up=True, is_test_mode=False):
+    if not is_test_mode:
+        disable_dft_testmode(dut)
     caravelEnv = await test_configure(dut, timeout_cycles, clk, timeout_precision, num_error, start_up=False)
     # manual start udisable_jtag_testmodep
     await caravelEnv.power_up()
@@ -20,7 +21,7 @@ async def test_configure_dft(dut: cocotb.handle.SimHandle,
     await ClockCycles(caravelEnv.clk, 10)
     return caravelEnv
 
-def disable_jtag_testmode(dut):
+def disable_dft_testmode(dut):
     dut.gpio28_en.value = 1
     dut.gpio28.value = 0
     dut.gpio29_en.value = 1

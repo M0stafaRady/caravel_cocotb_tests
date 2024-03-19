@@ -11,7 +11,7 @@ from caravel_cocotb.interfaces.common_functions.test_functions import Timeout
 from all_tests.mgmt_gpio.mgmt_gpio import blink_counter
 from user_design import configure_userdesign
 from cocotb.clock import Clock
-from all_tests.common.common import disable_jtag_testmode
+from all_tests.common.common import disable_dft_testmode
 
 
 @cocotb.test()
@@ -26,7 +26,7 @@ async def PoR(dut):
     )  # Create a 25ns period clock on port clk
     cocotb.start_soon(clock.start())  # Start the clock
     # drive reset with 1
-    disable_jtag_testmode(dut)
+    disable_dft_testmode(dut)
     await caravelEnv.disable_csb()  #
     caravelEnv.dut.resetb_tb.value = BinaryValue(value=1, n_bits=1)
     await caravelEnv.power_up()

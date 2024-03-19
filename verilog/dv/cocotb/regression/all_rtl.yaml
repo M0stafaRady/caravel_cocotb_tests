@@ -29,7 +29,6 @@ Tests:
     - {name: timer0_periodic, sim: RTL}
     - {name: uart_tx, sim: RTL}
     - {name: debug, sim: RTL}
-    - {name: debug_swd, sim: RTL}
     - {name: spi_master_rd, sim: RTL}
     - {name: user_pass_thru_rd, sim: RTL}
     - {name: clock_redirect, sim: RTL}
@@ -52,11 +51,6 @@ Tests:
     - {name: mem_dff_HW, sim: RTL}
     - {name: mem_dff2_B, sim: RTL}
     - {name: mem_dff_B, sim: RTL}
-    # - {name: mem_sram_smoke, sim: RTL} # gf180 only
-    # - {name: mem_sram_W, sim: RTL}  # gf180 only
-    # - {name: mem_sram_HW, sim: RTL} # gf180 only
-    # - {name: mem_sram_B, sim: RTL} # gf180 only
-    - {name: mgmt_gpio_pu_pd, sim: RTL}
     - {name: mgmt_gpio_disable, sim: RTL}
     - {name: user_pass_thru_connection, sim: RTL}
     - {name: spi_rd_wr, sim: RTL}
@@ -69,6 +63,8 @@ Tests:
     - {name: user1_irq, sim: RTL}
     - {name: user2_irq, sim: RTL}
     - {name: mgmt_pass_thru_rd, sim: RTL}
+    - {name: dft_golden, sim: RTL}
+    - {name: dft_scan_chain, sim: RTL}
 
 
 

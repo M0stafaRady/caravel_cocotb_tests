@@ -1,16 +1,16 @@
 # Begin_DVE_Session_Save_Info
 # DVE reload session
-# Saved on Sun Mar 17 02:02:54 2024
+# Saved on Tue Mar 19 03:37:37 2024
 # Designs open: 1
-#   V1: /home/rady/caravel/dft/caravel_cocotb_tests/verilog/dv/cocotb/sim/fixes/RTL-spi_master_rd/waves.vpd
+#   V1: /home/rady/caravel/dft/caravel_cocotb_tests/verilog/dv/cocotb/sim/dft_tests/RTL-dft_scan_chain/waves.vpd
 # Toplevel windows open: 2
 # 	TopLevel.1
 # 	TopLevel.2
 #   Source.1: caravel_top
-#   Wave.1: 14 signals
+#   Wave.1: 7 signals
 #   Group count = 2
-#   Group Group1 signal count = 10
-#   Group Group2 signal count = 4
+#   Group Group1 signal count = 7
+#   Group Group2 signal count = 0
 # End_DVE_Session_Save_Info
 
 # DVE version: V-2023.12-SP1_Full64
@@ -67,7 +67,7 @@ gui_sync_global -id ${TopLevel.2} -option true
 
 # MDI window settings
 set Wave.1 Wave.1
-gui_update_layout -id ${Wave.1} {{show_state maximized} {dock_state undocked} {dock_on_new_line false} {child_wave_left 722} {child_wave_right 1762} {child_wave_colname 359} {child_wave_colvalue 359} {child_wave_col1 0} {child_wave_col2 1}}
+gui_update_layout -id ${Wave.1} {{show_state maximized} {dock_state undocked} {dock_on_new_line false} {child_wave_left 722} {child_wave_right 1762} {child_wave_colname 358} {child_wave_colvalue 360} {child_wave_col1 0} {child_wave_col2 1}}
 
 # End MDI window settings
 
@@ -78,11 +78,11 @@ gui_update_layout -id ${Wave.1} {{show_state maximized} {dock_state undocked} {d
 
 # DVE Open design session: 
 
-if { ![gui_is_db_opened -db {/home/rady/caravel/dft/caravel_cocotb_tests/verilog/dv/cocotb/sim/fixes/RTL-spi_master_rd/waves.vpd}] } {
-	gui_open_db -design V1 -file /home/rady/caravel/dft/caravel_cocotb_tests/verilog/dv/cocotb/sim/fixes/RTL-spi_master_rd/waves.vpd -nosource
+if { ![gui_is_db_opened -db {/home/rady/caravel/dft/caravel_cocotb_tests/verilog/dv/cocotb/sim/dft_tests/RTL-dft_scan_chain/waves.vpd}] } {
+	gui_open_db -design V1 -file /home/rady/caravel/dft/caravel_cocotb_tests/verilog/dv/cocotb/sim/dft_tests/RTL-dft_scan_chain/waves.vpd -nosource
 }
 gui_set_precision 1ps
-gui_set_time_units 1ps
+gui_set_time_units 1ns
 #</Database>
 
 # DVE Global setting session: 
@@ -97,19 +97,19 @@ gui_set_time_units 1ps
 # Global: Signal Compare
 
 # Global: Signal Groups
+gui_load_child_values {caravel_top.uut.chip_core.soc}
 
 
-set _session_group_1 Group1
-gui_sg_create "$_session_group_1"
-set Group1 "$_session_group_1"
+set _session_group_12 Group1
+gui_sg_create "$_session_group_12"
+set Group1 "$_session_group_12"
 
-gui_sg_addsignal -group "$_session_group_1" { caravel_top.uut.chip_core.mprj.wbs_we_i caravel_top.uut.chip_core.mprj.wbs_stb_i caravel_top.uut.chip_core.mprj.wbs_sel_i caravel_top.uut.chip_core.mprj.wbs_dat_o caravel_top.uut.chip_core.mprj.wbs_dat_i caravel_top.uut.chip_core.mprj.wbs_cyc_i caravel_top.uut.chip_core.mprj.wbs_adr_i caravel_top.uut.chip_core.mprj.wbs_ack_o caravel_top.uut.chip_core.mprj.wb_rst_i caravel_top.uut.chip_core.mprj.wb_clk_i }
+gui_sg_addsignal -group "$_session_group_12" { caravel_top.uut.chip_core.soc.tck caravel_top.uut.chip_core.soc.tdi caravel_top.uut.chip_core.soc.tdo caravel_top.uut.chip_core.soc.tms caravel_top.uut.chip_core.soc.trap caravel_top.uut.chip_core.soc.trst caravel_top.clock_tb }
 
-set _session_group_2 Group2
-gui_sg_create "$_session_group_2"
-set Group2 "$_session_group_2"
+set _session_group_13 Group2
+gui_sg_create "$_session_group_13"
+set Group2 "$_session_group_13"
 
-gui_sg_addsignal -group "$_session_group_2" { {caravel_top.mprj_io_tb[35]} {caravel_top.mprj_io_tb[34]} {caravel_top.mprj_io_tb[33]} {caravel_top.mprj_io_tb[32]} }
 
 # Global: Highlighting
 
@@ -119,7 +119,7 @@ gui_change_stack_mode -mode list
 # Post database loading setting...
 
 # Restore C1 time
-gui_set_time -C1_only 589479785
+gui_set_time -C1_only 7775
 
 
 
@@ -151,10 +151,9 @@ gui_view_scroll -id ${Hier.1} -horizontal -set 0
 gui_list_set_filter -id ${Data.1} -list { {Buffer 1} {Input 1} {Others 1} {Linkage 1} {Output 1} {LowPower 1} {Parameter 1} {All 1} {Aggregate 1} {LibBaseMember 1} {Event 1} {Assertion 1} {Constant 1} {Interface 1} {BaseMembers 1} {Signal 1} {$unit 1} {Inout 1} {Variable 1} }
 gui_list_set_filter -id ${Data.1} -text {*}
 gui_list_show_data -id ${Data.1} {caravel_top}
-gui_list_expand -id ${Data.1} caravel_top.mprj_io_tb
 gui_show_window -window ${Data.1}
-catch { gui_list_select -id ${Data.1} {{caravel_top.mprj_io_tb[35]} {caravel_top.mprj_io_tb[34]} {caravel_top.mprj_io_tb[33]} {caravel_top.mprj_io_tb[32]} {caravel_top.mprj_io_tb[35]} {caravel_top.mprj_io_tb[34]} {caravel_top.mprj_io_tb[33]} {caravel_top.mprj_io_tb[32]} }}
-gui_view_scroll -id ${Data.1} -vertical -set 320
+catch { gui_list_select -id ${Data.1} {caravel_top.clock_tb }}
+gui_view_scroll -id ${Data.1} -vertical -set 0
 gui_view_scroll -id ${Data.1} -horizontal -set 0
 gui_view_scroll -id ${Hier.1} -vertical -set 0
 gui_view_scroll -id ${Hier.1} -horizontal -set 0
@@ -176,10 +175,9 @@ set origWaveHeight [gui_get_pref_value -category Wave -key waveRowHeight]
 gui_list_set_height -id Wave -height 25
 set origGroupCreationState [gui_list_create_group_when_add -wave]
 gui_list_create_group_when_add -wave -disable
-gui_wv_zoom_timerange -id ${Wave.1} 567563527 643238664
+gui_wv_zoom_timerange -id ${Wave.1} 7659.214 8090.461
 gui_list_add_group -id ${Wave.1} -after {New Group} {Group1}
 gui_list_add_group -id ${Wave.1} -after {New Group} {Group2}
-gui_list_select -id ${Wave.1} {{caravel_top.mprj_io_tb[35]} {caravel_top.mprj_io_tb[34]} {caravel_top.mprj_io_tb[33]} {caravel_top.mprj_io_tb[32]} }
 gui_seek_criteria -id ${Wave.1} {Any Edge}
 
 
@@ -195,9 +193,9 @@ if { $groupExD } {
 }
 gui_list_set_filter -id ${Wave.1} -list { {Buffer 1} {Input 1} {Others 1} {Linkage 1} {Output 1} {Parameter 1} {All 1} {Aggregate 1} {LibBaseMember 1} {Event 1} {Assertion 1} {Constant 1} {Interface 1} {BaseMembers 1} {Signal 1} {$unit 1} {Inout 1} {Variable 1} }
 gui_list_set_filter -id ${Wave.1} -text {*}
-gui_list_set_insertion_bar  -id ${Wave.1} -group Group2  -item {caravel_top.mprj_io_tb[32]} -position below
+gui_list_set_insertion_bar  -id ${Wave.1} -group Group1  -item caravel_top.clock_tb -position below
 
-gui_marker_move -id ${Wave.1} {C1} 589479785
+gui_marker_move -id ${Wave.1} {C1} 7775
 gui_view_scroll -id ${Wave.1} -vertical -set 0
 gui_show_grid -id ${Wave.1} -enable false
 # Restore toplevel window zorder
