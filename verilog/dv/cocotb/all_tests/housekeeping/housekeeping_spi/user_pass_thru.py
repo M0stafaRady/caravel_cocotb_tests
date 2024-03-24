@@ -1,5 +1,5 @@
 import cocotb
-from cocotb.triggers import FallingEdge, RisingEdge
+from cocotb.triggers import FallingEdge, RisingEdge, ClockCycles
 import cocotb.log
 from all_tests.common.common import test_configure_dft
 from caravel_cocotb.caravel_interfaces import report_test
@@ -32,6 +32,10 @@ async def user_pass_thru_rd(dut):
         )
     )  # fork for SPI
     await debug_regs.wait_reg1(0xAA)
+    dut.gpio8_en.value = 1
+    dut.gpio8.value = 1
+    await ClockCycles(caravelEnv.clk, 1)
+    dut.gpio8_en.value =0
     cocotb.log.info("[TEST] Configuration finished")
     # start reading from memory
     address = 0x00.to_bytes(3, "big")

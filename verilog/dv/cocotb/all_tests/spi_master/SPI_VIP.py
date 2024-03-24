@@ -53,6 +53,7 @@ async def SPI_op(clk, SDI, SDO, mem, remove_clk=0):
             # data_in += SDI
             # await RisingEdge(clk)
     elif command == "00000011":
+        cocotb.log.info("command is read")
         if not remove_clk:
             await FallingEdge(clk)
         while True:
