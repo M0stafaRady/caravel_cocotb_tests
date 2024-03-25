@@ -1,7 +1,7 @@
 import cocotb
 from caravel_cocotb.interfaces.common_functions.test_functions import read_config_file, test_configure
 
-
+from cocotb.handle import Force
 from cocotb.triggers import ClockCycles
 
 async def test_configure_dft(dut: cocotb.handle.SimHandle,
@@ -30,3 +30,48 @@ def disable_dft_testmode(dut):
     dut.gpio30.value = 0
     dut.gpio31_en.value = 1
     dut.gpio31.value = 0
+
+def isolate_mgmt_out(dut):
+    mgmt_hdl = dut.uut.chip_core.soc
+    mgmt_hdl.debug_mode.value = Force(0)
+    mgmt_hdl.debug_oeb.value = Force(0)
+    mgmt_hdl.debug_out.value = Force(0)
+    mgmt_hdl.flash_clk.value = Force(0)
+    mgmt_hdl.flash_csb.value = Force(0)
+    mgmt_hdl.flash_io0_do.value = Force(0)
+    mgmt_hdl.flash_io0_oeb.value = Force(0)
+    
+    # mgmt_hdl.flash_io1_do.value = Force(0)
+    # mgmt_hdl.flash_io1_oeb.value = Force(0)
+    # mgmt_hdl.flash_io2_do.value = Force(0)
+    # mgmt_hdl.flash_io2_oeb.value = Force(0)
+    # mgmt_hdl.flash_io3_do.value = Force(0)
+    # mgmt_hdl.flash_io3_oeb.value = Force(0)
+
+    mgmt_hdl.gpio_inenb_pad.value = Force(0)
+    mgmt_hdl.gpio_mode0_pad.value = Force(0)
+    mgmt_hdl.gpio_mode1_pad.value = Force(0)
+    mgmt_hdl.gpio_out_pad.value = Force(0)
+    mgmt_hdl.gpio_outenb_pad.value = Force(0)
+    mgmt_hdl.hk_cyc_o.value = Force(0)
+    mgmt_hdl.hk_stb_o.value = Force(0)
+    mgmt_hdl.la_iena.value = Force(0)
+    mgmt_hdl.la_oenb.value = Force(0)
+    mgmt_hdl.la_output.value = Force(0)
+    mgmt_hdl.mprj_adr_o.value = Force(0)
+    mgmt_hdl.mprj_cyc_o.value = Force(0)
+    mgmt_hdl.mprj_dat_o.value = Force(0)
+    mgmt_hdl.mprj_sel_o.value = Force(0)
+    mgmt_hdl.mprj_stb_o.value = Force(0)
+    mgmt_hdl.mprj_wb_iena.value = Force(0)
+    mgmt_hdl.mprj_we_o.value = Force(0)
+    mgmt_hdl.qspi_enabled.value = Force(0)
+    mgmt_hdl.ser_tx.value = Force(0)
+    mgmt_hdl.spi_csb.value = Force(0)
+    mgmt_hdl.spi_enabled.value = Force(0)
+    mgmt_hdl.spi_sck.value = Force(0)
+    mgmt_hdl.spi_sdo.value = Force(0)
+    mgmt_hdl.spi_sdoenb.value = Force(0)
+    mgmt_hdl.trap.value = Force(0)
+    mgmt_hdl.uart_enabled.value = Force(0)
+    mgmt_hdl.user_irq_ena.value = Force(0)

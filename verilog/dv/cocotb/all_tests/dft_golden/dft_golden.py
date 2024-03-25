@@ -1,7 +1,7 @@
 import cocotb
 from cocotb.triggers import ClockCycles
 import cocotb.log
-from all_tests.common.common import test_configure_dft
+from all_tests.common.common import test_configure_dft, isolate_mgmt_out
 from caravel_cocotb.caravel_interfaces import report_test
 from user_design import configure_userdesign
 from dft import DFT
@@ -10,8 +10,9 @@ import random
 @cocotb.test()
 @report_test
 async def dft_golden(dut):
-    caravelEnv = await test_configure_dft(dut, timeout_cycles=126792, is_test_mode=True)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=126792, is_test_mode=False, num_error=60)
     dft = DFT(caravelEnv)
+    isolate_mgmt_out(dut)
     vector_file = f'{cocotb.plusargs["USER_PROJECT_ROOT"]}/verilog/dv/cocotb/all_tests/dft_golden/mgmt_core_wrapper.vec.bin'.replace('"', '')
     out_file = f'{cocotb.plusargs["USER_PROJECT_ROOT"]}/verilog/dv/cocotb/all_tests/dft_golden/mgmt_core_wrapper.out.bin'.replace('"', '')
     chosen_numbers = random.sample(range(8, 278), 10)

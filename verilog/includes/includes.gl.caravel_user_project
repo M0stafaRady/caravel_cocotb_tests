@@ -8,13 +8,13 @@
 -v $(USER_PROJECT_VERILOG)/gl/caravel_core.v
 
 # default blocks 
--v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0c00.v
+#-v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0c00.v
 -v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0c01.v
--v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0402.v
+#-v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0402.v
 -v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0403.v
--v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0800.v
+#-v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0800.v
 -v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_0801.v
--v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_1800.v
+#-v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_1800.v
 -v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_1803.v
--v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_1808.v
+#-v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_1808.v
 -v $(USER_PROJECT_VERILOG)/gl/gpio_defaults_block_1809.v
