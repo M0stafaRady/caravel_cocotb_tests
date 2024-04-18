@@ -38,7 +38,7 @@ class DFT():
 
     async def start_dft(self):
         clock = self.caravelEnv.get_clock_obj()
-        period = clock.period / 1000
+        period = clock.period / 250
         await cocotb.start(self.set_clock(period))
         self.enable_tms(False)
         await ClockCycles(self.clock_hdl, 1)
@@ -49,6 +49,7 @@ class DFT():
         for i in range(length):
             self.dft_in_hdl.value = data & 1
             await ClockCycles(self.clock_hdl, 1)
+            await Timer(50, "ns")
             data = data >> 1
     
     async def read_dft(self, length = 5600):
@@ -108,7 +109,7 @@ class DFT():
         
         # shift DR
         self.enable_tms(0)
-        await ClockCycles(self.clock_hdl, 1)
+        # await ClockCycles(self.clock_hdl, 1)
         
         # shift-out response
         golden_out_length = len(golden_out)
@@ -116,7 +117,7 @@ class DFT():
         errors = 0
         self.dft_in_hdl.value = 0
         for i in range(golden_out_length):
-            await Timer(2, "ns")
+            await Timer(50, "ns")
             tdo = self.dft_out_hdl.value.binstr
             if tdo != golden_out[i] and golden_out[i] != "x":
                 errors += 1
@@ -125,6 +126,7 @@ class DFT():
                 self.enable_tms(1) # Exit-DR
             await ClockCycles(self.clock_hdl, 1)
         # update DR
+        await ClockCycles(self.clock_hdl, 1)
         self.enable_tms(1)
         await ClockCycles(self.clock_hdl, 1)
         self.enable_tms(0) # run test idle

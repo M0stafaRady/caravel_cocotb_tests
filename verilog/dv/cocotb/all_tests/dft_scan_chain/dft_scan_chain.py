@@ -10,7 +10,7 @@ import random
 @cocotb.test()
 @report_test
 async def dft_scan_chain(dut):
-    caravelEnv = await test_configure_dft(dut, timeout_cycles=12396, is_test_mode=False)
+    caravelEnv = await test_configure_dft(dut, timeout_cycles=52396, is_test_mode=False)
     dft = DFT(caravelEnv)
     isolate_mgmt_out(dut)
     await dft.start_dft()

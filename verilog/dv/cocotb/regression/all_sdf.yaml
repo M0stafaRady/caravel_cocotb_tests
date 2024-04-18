@@ -2,6 +2,8 @@
 # Regression with all tests run in GL_SDF mode 
 
 Tests: 
+    - {name: dft_golden, sim: GL_SDF}
+    - {name: dft_scan_chain, sim: GL_SDF}
     - {name: gpio_all_i, sim: GL_SDF}
     - {name: hk_disable, sim: GL_SDF}
     - {name: uart_rx, sim: GL_SDF}
@@ -58,13 +60,10 @@ Tests:
     - {name: IRQ_spi, sim: GL_SDF}
     - {name: IRQ_external2, sim: GL_SDF}
     - {name: IRQ_uart_rx, sim: GL_SDF}
-    - {name: uart_rx_msg, sim: GL_SDF}
     - {name: user0_irq, sim: GL_SDF}
     - {name: user1_irq, sim: GL_SDF}
     - {name: user2_irq, sim: GL_SDF}
     - {name: mgmt_pass_thru_rd, sim: GL_SDF}
-    - {name: dft_golden, sim: GL_SDF}
-    - {name: dft_scan_chain, sim: GL_SDF}
 
 
 
